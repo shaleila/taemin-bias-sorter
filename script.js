@@ -1,11 +1,16 @@
 const taeminTracks = [
-    "Move",
-    "Want",
-    "Criminal",
-    "Advice",
-    "Idea",
+    "Danger",
+    "Drip Drop",
     "Press Your Number",
-    "Drip Drop"
+    "MOVE",
+    "WANT",
+    "Criminal",
+    "IDEA",
+    "Advice",
+    "Guilty",
+    "The Rizzness",
+    "Sexy In The Air",
+    "Horizon"
 ];
 
 let leftIndex = 0;
