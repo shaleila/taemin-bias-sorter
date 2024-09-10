@@ -15,7 +15,9 @@ const taeminTracks = [
 
 let sortedTracks = [];
 let compareQueue = [];
+let ranking = new Array(taeminTracks.length).fill(null);
 
+// Prepare comparison queue
 function prepareComparisonQueue(tracks) {
     for (let i = 0; i < tracks.length; i++) {
         for (let j = i + 1; j < tracks.length; j++) {
@@ -41,32 +43,35 @@ function updateOptions() {
 }
 
 function sortTracks(winnerIndex, loserIndex) {
-    // Move winner to the front if it's not already in sortedTracks
-    if (!sortedTracks.includes(taeminTracks[winnerIndex])) {
-        sortedTracks.unshift(taeminTracks[winnerIndex]);
+    // If the winner has not been ranked yet, rank it higher
+    if (!sortedTracks.includes(winnerIndex)) {
+        sortedTracks.push(winnerIndex);
     }
-    
-    // Add the loser after the winner in the sorted list
-    if (!sortedTracks.includes(taeminTracks[loserIndex])) {
-        sortedTracks.push(taeminTracks[loserIndex]);
+    // Ensure the loser is placed after the winner
+    if (!sortedTracks.includes(loserIndex)) {
+        sortedTracks.push(loserIndex);
     }
 
-    // Update the next comparison
-    updateOptions();
+    updateOptions(); // Move to the next comparison
 }
 
 function showResults() {
-    document.getElementById('container').style.display = 'none';
+    document.getElementById('container').style.display = 'none'; // Hide the sorting UI
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
 
     const rankings = document.getElementById('rankings');
     rankings.innerHTML = '';
-    sortedTracks.forEach(track => {
-        rankings.innerHTML += `<li>${track}</li>`;
+
+    // Iterate over the sorted indexes to display the final ranking
+    sortedTracks.forEach((trackIndex) => {
+        rankings.innerHTML += `<li>${taeminTracks[trackIndex]}</li>`;
     });
+
+    console.log("Final Rankings:", sortedTracks); // Debugging check
 }
 
+// Event listeners for user input
 document.getElementById('left-button').addEventListener('click', (e) => {
     const winnerIndex = parseInt(e.target.dataset.index);
     const loserIndex = parseInt(document.getElementById('right-button').dataset.index);
@@ -79,6 +84,6 @@ document.getElementById('right-button').addEventListener('click', (e) => {
     sortTracks(winnerIndex, loserIndex);
 });
 
-// Prepare the queue of all possible comparisons
+// Initialize the comparison queue and start
 prepareComparisonQueue(taeminTracks);
 updateOptions();
