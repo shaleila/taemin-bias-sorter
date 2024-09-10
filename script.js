@@ -18,6 +18,12 @@ let rightIndex = 1;
 let results = [];
 
 function updateOptions() {
+    if (leftIndex >= taeminTracks.length - 1) {
+        // If all comparisons are done, show the results.
+        showResults();
+        return;
+    }
+
     document.getElementById('options').innerHTML = `
         <h3>${taeminTracks[leftIndex]} vs ${taeminTracks[rightIndex]}</h3>
     `;
@@ -27,6 +33,7 @@ function sortTracks(winnerIndex, loserIndex) {
     const winner = taeminTracks[winnerIndex];
     const loser = taeminTracks[loserIndex];
 
+    // Add winner and loser to results if not already there
     if (results.indexOf(winner) === -1) {
         results.push(winner);
     }
@@ -34,12 +41,14 @@ function sortTracks(winnerIndex, loserIndex) {
         results.push(loser);
     }
 
+    // Move to the next comparison
     rightIndex++;
     if (rightIndex >= taeminTracks.length) {
         leftIndex++;
         rightIndex = leftIndex + 1;
     }
 
+    // Check if we are done with all comparisons
     if (leftIndex >= taeminTracks.length - 1) {
         showResults();
     } else {
